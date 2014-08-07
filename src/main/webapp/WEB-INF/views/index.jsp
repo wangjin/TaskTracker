@@ -12,26 +12,44 @@
     <title>首页</title>
     <script>
         $(function () {
-            $('#tt').tabs('add', {
-                title: '首页',
-                content: 'Tab Body',
-                closable: false,
-                fit: true
+
+            //注册按钮
+            $('.btn').linkbutton({
+                plain: false
             });
 
-            $('.btn').linkbutton({
-                plain:true
-            });
+            $('.panel-body-noborder').css('min-height', '100%');
         });
 
-        var addTab = function () {
-            $('#tt').tabs('add', {
-                title: '111',
-                content: 'Tab Body',
-                closable: true,
-                fit: true
+        var titileid = 0;
+
+        var addTab = function (url,title) {
+
+            $(".tab-iframe").each(function (i,dom){
+                if(title==$(dom).attr("titlename")){
+                    $('#tabs-panel').tabs('select',title);
+                }
             });
+
+
+            $('#tabs-panel').tabs('add', {
+                title: title,
+                content: '<iframe class=\"tab-iframe\" src=\"' + url + '\" titlename=\"'+ title +'\" frameborder=\"0\" height=\"100%\" weight=\"100%\"></iframe>',
+                closable: true,
+                tools:[{
+                    iconCls:'icon-mini-refresh',
+                    handler:function(){
+                        var tab = $('#tabs-panel').tabs('getSelected');  // get selected panel
+                        tab.panel('refresh');
+                    }
+                }]
+            });
+            titileid++;
+
+            $('.panel-body-noborder').css('height', '100%'); //设置tab的高度为最大
+
         }
+
 
     </script>
 </head>
@@ -39,22 +57,19 @@
 <div region="north" title="" split="true" style="height:100px;">
     Here is the header.
 </div>
-<div region="south" title="" split="true" style="height:100px;text-align: center;padding: 40px;">
+<div region="south" title="" split="true" style="height:100px;text-align: center;padding: 35px;">
 
     Copyright © 2014 Powered By WangJin
 </div>
-<div region="east" iconCls="icon-reload" title="East" split="true" style="width:100px;"></div>
+<%--<div region="east" iconCls="icon-reload" title="" split="true" style="width:100px;"></div>--%>
 <div region="west" split="true" title="菜单" style="width:300px;">
 
     <div id="aa" class="easyui-accordion" style="width:auto;height:auto;">
-        <div title="系统管理" iconCls="icon-save" selected="true" style="overflow:auto;padding:10px;">
-            <h3 style="color:#0099FF;">Accordion for jQuery</h3>
-
-            <p>Accordion is a part of easyui framework for jQuery.
-                It lets you define your accordion component on web page more easily.</p>
-
-
-            <a href="javascript:addTab();" class="btn" iconCls="icon-search">easyui</a>
+        <div title="系统管理" iconCls="icon-save" selected="true" style="overflow:auto;padding:10px;text-align: center;">
+            <a href="javascript:addTab('form/index.do','菜单管理');" class="btn" iconCls="icon-search"
+               style="width: 100%;margin:100px,0px,10px,0px;">菜单管理</a>
+            <a href="javascript:addTab('form/index.do','xx管理');" class="btn" iconCls="icon-search"
+               style="width: 100%;margin:100px,0px,10px,0px;">xx管理</a>
         </div>
         <div title="Title2" iconCls="icon-reload" selected="true" style="padding:10px;">
             content2
@@ -71,13 +86,26 @@
         <div title="Title2" iconCls="icon-reload" selected="true" style="padding:10px;">
             content2
         </div>
-
     </div>
 
 </div>
 <div region="center" title="" style="padding:5px;background:#eee;">
 
-    <div id="tt" class="easyui-tabs" style="width:100%;height: 100%;">
+    <div class="easyui-tabs" style="width:auto;height: 100%" id="tabs-panel">
+        <div title="首页" style="padding:10px">
+            <p style="font-size:14px">jQuery EasyUI framework helps you build your web pages easily.</p>
+            <ul>
+                <li>easyui is a collection of user-interface plugin based on jQuery.</li>
+                <li>easyui provides essential functionality for building modem, interactive, javascript applications.
+                </li>
+                <li>using easyui you don't need to write many javascript code, you usually defines user-interface by
+                    writing some HTML markup.
+                </li>
+                <li>complete framework for HTML5 web page.</li>
+                <li>easyui save your time and scales while developing your products.</li>
+                <li>easyui is very easy but powerful.</li>
+            </ul>
+        </div>
 
 
     </div>
